@@ -121,6 +121,29 @@
     });
   }
 
+  // ---------- context uit de link (bijv. vanaf een merkpagina) ----------
+  // /aanvraaglijst?aanvraag=advies&merk=Grundfos
+  // Met een geldige aanvraag mag het formulier ook zonder product op de lijst worden verstuurd,
+  // zodat een bezoeker die zich nog oriënteert advies kan vragen.
+  // [label in de inzending, zinsdeel voor de bezoeker]
+  const SOORTEN = {
+    advies: ["Productadvies", "productadvies"],
+    offerte: ["Offerte", "een offerte"],
+    onderdelen: ["Onderdelen of mechanical seal", "onderdelen of een mechanical seal"],
+  };
+  const context = (() => {
+    try {
+      const p = new URLSearchParams(location.search);
+      const sleutel = (p.get("aanvraag") || "").toLowerCase();
+      if (!Object.prototype.hasOwnProperty.call(SOORTEN, sleutel)) return null;
+      const [soort, zin] = SOORTEN[sleutel];
+      const merk = (p.get("merk") || "").replace(/[^\p{L}\p{N} &.\-]/gu, "").trim().slice(0, 40);
+      return { sleutel, soort, zin, merk, label: soort + (merk ? " " + merk : "") };
+    } catch (e) {
+      return null;
+    }
+  })();
+
   // ---------- /aanvraaglijst ----------
   function maak(tag, cls, tekst) {
     const el = document.createElement(tag);
@@ -138,14 +161,27 @@
     const box = document.querySelector("[data-vn-lijst]");
     const veld = document.querySelector("[data-vn-lijst-veld]");
     const aantal = document.querySelector("[data-vn-lijst-aantal]");
-    if (veld) veld.value = lijst.map(regelTekst).join("\n");
+    if (veld) {
+      veld.value = lijst.length ?
+        lijst.map(regelTekst).join("\n") :
+        context ? "Geen product gekozen (" + context.label + ")" : "";
+    }
     if (aantal) aantal.value = lijst.length ? String(lijst.length) : "";
     if (!box) return;
 
     if (!box._leeg) box._leeg = box.querySelector(".vn-lijst__leeg");
     box.textContent = "";
     if (!lijst.length) {
-      if (box._leeg) box.append(box._leeg);
+      if (context) {
+        // Oriënterende bezoeker: geen lege lijst tonen, maar uitleggen wat er nu gebeurt.
+        const p = maak("p", "vn-lijst__context");
+        p.append(
+          "Je vraagt " + context.zin +
+          (context.merk ? " aan voor " + context.merk : " aan") +
+          ". Je hoeft geen product te kiezen: beschrijf in het formulier wat je zoekt."
+        );
+        box.append(p);
+      } else if (box._leeg) box.append(box._leeg);
       return;
     }
     const melding = document.querySelector("[data-vn-lijst-melding]");
@@ -233,11 +269,28 @@
     const form = veld.closest("form");
     if (!form) return;
 
-    // Lege lijst: niet versturen (vóór de Webflow-afhandeling).
+    // Soort aanvraag uit de link meesturen en de toelichting richting geven.
+    if (context) {
+      const soort = maak("input");
+      soort.type = "hidden";
+      soort.name = "Soort aanvraag";
+      soort.value = context.label;
+      form.prepend(soort);
+      const toelichting = form.querySelector("textarea");
+      if (toelichting && !toelichting.value) {
+        toelichting.placeholder =
+          context.sleutel === "onderdelen" ?
+          "Bijv. type- of productnummer van de pomp en welk onderdeel je zoekt." :
+          "Bijv. wat de pomp moet doen, het medium, de gewenste druk of het debiet, en eventueel het type van je huidige pomp.";
+      }
+    }
+
+    // Lege lijst: niet versturen (vóór de Webflow-afhandeling), behalve bij een aanvraag
+    // met context uit de link (productadvies, offerte of onderdelen zonder gekozen product).
     form.addEventListener(
       "submit",
       (e) => {
-        if (lees().length) return;
+        if (lees().length || context) return;
         e.preventDefault();
         e.stopImmediatePropagation();
         const melding = document.querySelector("[data-vn-lijst-melding]");
