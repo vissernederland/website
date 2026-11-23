@@ -13,11 +13,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
    hover op donkere achtergrond (vn-on-dark wordt door het script in de head gezet). Losse knoppen: vn-button__primary in Webflow. */
 .button__primary.vn-on-dark:hover{background-color:#1aa3ec}
 
-/* SECONDARY – oude classes; op donker witte tekst. vn-button__secondary en vn-button--small staan volledig in Webflow (Components-tokens: M 48px, S 40px), 20-11-2026 */
-.plan-route.plan-route,.button-3.is-secondary,.locatie_button.locatie_button,.next--button.next--button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 20px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px var(--vn-brand);color:var(--vn-blue);font-size:1rem;font-weight:600;line-height:1;text-decoration:none;transition:background-color var(--vn-dur-fast) var(--vn-ease)}
+/* SECONDARY – oude classes; op donker witte tekst. vn-button__secondary staat volledig in Webflow (Components-token button/min-height). Eén knopmaat (2.5em); grote knoppen zijn uit het designsysteem, 23-11-2026 */
+.plan-route.plan-route,.button-3.is-secondary,.locatie_button.locatie_button,.next--button.next--button{display:inline-flex;align-items:center;justify-content:center;gap:.5em;height:2.5em;padding:0 1em;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px var(--vn-brand);color:var(--vn-blue);font-size:1em;font-weight:600;line-height:1;text-decoration:none;transition:background-color var(--vn-dur-fast) var(--vn-ease)}
 .plan-route.plan-route:hover,.button-3.is-secondary:hover,.locatie_button.locatie_button:hover,.next--button.next--button:hover{background:var(--vn-brand-tint)}
-.plan-route.plan-route,.button-3.is-secondary,.locatie_button.locatie_button{height:40px;padding:0 16px;font-size:.9375rem}
-.plan-route p,.locatie_button p{margin:0;color:inherit;font:inherit}
+.plan-route p,.locatie_button p{margin:0;color:inherit;font:inherit;font-size:.9375em}
 .plan-route .icon-embed-xxsmall,.locatie_button .icon-embed-xxsmall{width:16px;height:16px;color:var(--vn-brand)}
 .vn-on-dark.plan-route,.vn-on-dark.button-3.is-secondary,.vn-on-dark.locatie_button,.vn-on-dark.next--button,.vn-on-dark.contact-button_socials,.vn-on-dark.contact-button_whatsapp,.vn-on-dark.vn-button__secondary,.button__secondary.vn-on-dark,.button__icon.vn-on-dark{color:#fff}
 .vn-on-dark.plan-route:hover,.vn-on-dark.button-3.is-secondary:hover,.vn-on-dark.locatie_button:hover,.vn-on-dark.next--button:hover,.vn-on-dark.contact-button_socials:hover,.vn-on-dark.contact-button_whatsapp:hover,.vn-on-dark.vn-button__secondary:hover,.button__secondary.vn-on-dark:hover,.button__icon.vn-on-dark:hover{background:rgba(0,143,219,.18)}
@@ -204,22 +203,22 @@ html.vn-fs-nep,html.vn-fs-nep body{overflow:hidden!important}
 .vn-pcard__spec[hidden],.vn-pcard__specs[hidden],.vn-pcard__spec:has(.w-dyn-bind-empty){display:none}
 .vn-pcard__spec-value::after{content:" " attr(data-unit)}
 .vn-pcard:hover .vn-pcard__img{transform:scale(1.04)}
-.vn-pcard__cta::after{content:"";flex:none;width:2rem;height:2rem;box-sizing:border-box;border:1.5px solid #006aa3;border-radius:50%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006aa3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/1rem no-repeat;transition:background-color .2s ease,transform .2s ease}
-.vn-pcard:hover .vn-pcard__cta::after{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/1rem no-repeat #006aa3;transform:translateX(3px)}
-.vn-pcard__stock p{margin:0;font-size:.875rem;color:inherit}
-.vn-pcard__stock .feature__circle{width:.5rem;height:.5rem;background:currentColor}
+.vn-pcard__cta::after{content:"";flex:none;width:2em;height:2em;box-sizing:border-box;border:1.5px solid #006aa3;border-radius:50%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23006aa3' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/1em no-repeat;transition:background-color .2s ease,transform .2s ease}
+.vn-pcard:hover .vn-pcard__cta::after{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/1em no-repeat #006aa3;transform:translateX(3px)}
+.vn-pcard__stock p{margin:0;font-size:.875em;color:inherit}
+.vn-pcard__stock .feature__circle{width:.5em;height:.5em;background:currentColor}
 /* /producten-raster (Filter__list staat in Webflow: 3 / 2 / 1 kolom). Tussen 992 en 1199px heeft Webflow geen breakpoint. */
 @media (min-width:992px) and (max-width:1199px){.filter__list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* mobiel: in de lijst op /producten een liggende kaart (in sliders blijft hij staand) */
 @media (max-width:479px){
-.filter__list .vn-pcard{display:grid;grid-template-columns:9rem minmax(0,1fr);grid-template-rows:1fr auto}
-.filter__list .vn-pcard__media{grid-row:1 / 3;aspect-ratio:auto;padding:.75rem}
-.filter__list .vn-pcard__badges{top:.375rem;left:.375rem;flex-direction:column;align-items:flex-start}
-.filter__list .vn-pcard__body{padding:.875rem 1rem 0;gap:.375rem}
-.filter__list .vn-pcard__title{font-size:1.0625rem}
-.filter__list .vn-pcard__stock{left:.375rem;bottom:.375rem;padding:0 .375rem;gap:.25rem;width:max-content}
+.filter__list .vn-pcard{display:grid;grid-template-columns:9em minmax(0,1fr);grid-template-rows:1fr auto}
+.filter__list .vn-pcard__media{grid-row:1 / 3;aspect-ratio:auto;padding:.75em}
+.filter__list .vn-pcard__badges{top:.375em;left:.375em;flex-direction:column;align-items:flex-start}
+.filter__list .vn-pcard__body{padding:.875em 1em 0;gap:.375em}
+.filter__list .vn-pcard__title{font-size:1.0625em}
+.filter__list .vn-pcard__stock{left:.375em;bottom:.375em;padding:0 .375em;gap:.25em;width:max-content}
 .filter__list .vn-pcard__stock p{white-space:nowrap}
-.filter__list .vn-pcard__footer{padding:.75rem 1rem .875rem}
-.filter__list .vn-pcard__cta::after{width:1.875rem;height:1.875rem}
+.filter__list .vn-pcard__footer{padding:.75em 1em .875em}
+.filter__list .vn-pcard__cta::after{width:1.875em;height:1.875em}
 }
 @media (prefers-reduced-motion:reduce){.vn-pcard,.vn-pcard__img,.vn-pcard__cta::after{transition:none}.vn-pcard:hover,.vn-pcard:hover .vn-pcard__img,.vn-pcard:hover .vn-pcard__cta::after{transform:none}}
