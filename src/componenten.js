@@ -332,7 +332,7 @@
     });
   }
 
-  // ===== 6. Productkaarten (/producten) – .vn-pcard =====
+  // ===== 6. Productkaarten (/producten en productsliders) – .vn-pcard =====
   // Getallen in NL-notatie (1.589,9), vermogen als bereik (0,12 – 4 kW), max. 3 specs per kaart.
   // Finsweet laadt kaarten bij: nieuwe kaarten worden via een MutationObserver ook opgemaakt.
   function initProductCards() {
@@ -348,6 +348,10 @@
     function initCard(card) {
       if (card.dataset.vnCard === "1") return;
       card.dataset.vnCard = "1";
+      // Productsliders op merkpagina's: de link staat in Webflow op /producten (de API kan geen
+      // "huidig item" zetten); de slug komt uit data-vn-slug, gekoppeld aan het CMS-veld Slug.
+      const slug = card.getAttribute("data-vn-slug");
+      if (slug && /^[a-z0-9-]+$/.test(slug)) card.setAttribute("href", "/producten/" + slug);
       let shown = 0;
       card.querySelectorAll(".vn-pcard__spec").forEach((row) => {
         const val = row.querySelector(".vn-pcard__spec-value");
