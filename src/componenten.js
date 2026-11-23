@@ -747,7 +747,45 @@
     form.addEventListener("submit", (e) => e.preventDefault());
   }
 
+  // ===== 10. Keuzehulp toepassingen (merkpagina's) – [data-vn-keuze] =====
+  // Opbouw en opmaak staan in Webflow (vn-keuze, vn-keuze__knop, vn-card + vn-keuze__paneel, combo is-actief).
+  // Hier alleen het wisselen: klik, pijltjestoetsen/Home/End en aria-selected/tabindex.
+  function initKeuzehulp() {
+    document.querySelectorAll("[data-vn-keuze]").forEach((root) => {
+      const tabs = [...root.querySelectorAll("[data-vn-keuze-tab]")];
+      const panels = [...root.querySelectorAll("[data-vn-keuze-paneel]")];
+      if (!tabs.length) return;
+      const kies = (i, focus) => {
+        tabs.forEach((t, n) => {
+          const on = n === i;
+          t.classList.toggle("is-actief", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          t.tabIndex = on ? 0 : -1;
+        });
+        const key = tabs[i].dataset.vnKeuzeTab;
+        panels.forEach((p) => p.classList.toggle("is-actief", p.dataset.vnKeuzePaneel === key));
+        if (focus) {
+          tabs[i].focus();
+          tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+      };
+      const start = Math.max(0, tabs.findIndex((t) => t.classList.contains("is-actief")));
+      kies(start, false);
+      tabs.forEach((t, i) => {
+        t.addEventListener("click", () => kies(i, false));
+        t.addEventListener("keydown", (e) => {
+          const last = tabs.length - 1;
+          const map = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: last };
+          if (!(e.key in map)) return;
+          e.preventDefault();
+          kies((map[e.key] + tabs.length) % tabs.length, true);
+        });
+      });
+    });
+  }
+
   run("tabs", initTabs);
+  run("keuzehulp", initKeuzehulp);
   run("tijdlijn", initStepTimeline);
   run("stapelkaarten", initStackingCards);
   run("social-share", initSocialShare);
